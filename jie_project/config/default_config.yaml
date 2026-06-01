@@ -1,0 +1,15 @@
+data: 'electricity'
+root_path: './dataset/electricity/'
+data_path: 'electricity.csv'
+test_data_path: './electricity.csv'
+checkpoints: './checkpoints/'
+
+seq_len: 672
+label_len: 648
+pred_len: 24
+
+llm_ckp_dir: '/home/ykj/build/llama_model'
+mlp_hidden_dim: 1024
+mlp_hidden_layers: 2
+
+batch_size: 256

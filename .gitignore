@@ -1,0 +1,31 @@
+code/outputs/
+参考模型/
+Time-Series-Library/checkpoints*/
+Time-Series-Library/results*/
+Time-Series-Library/test_results*/
+Time-Series-Library/result_long_term_forecast*.txt
+对比脚本/output*/
+metrics.json
+Time-Series-Library/参数实验/output/
+Time-Series-Library/消融实验/output/
+data_/
+画图/
+.vscode/
+llama_model/
+
+# TFDF
+tfdf_project/checkpoints/
+tfdf_project/result_data/
+tfdf_project/results/
+tfdf_project/results_/
+tfdf_project/test_results/
+
+# JIE
+jie_project/checkpoints/
+jie_project/dataset/
+jie_project/metrics/
+jie_project/result/
+jie_project/result_备选/
+jie_project/test_results/
+
+
