@@ -1,11 +1,11 @@
 #!/usr/bin/env bash   
 # PatchTST TimeXer iTransformer TimeMixer
-"""
-TimeXer   504 
-其他    672
+
+# TimeXer   504 
+# 其他    672
 
 
-"""
+
 set -euo pipefail
 
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
@@ -15,7 +15,7 @@ project_dir=$(cd "${tsl_dir}/.." && pwd)
 if [ "$#" -gt 0 ]; then
   model_names=("$@")
 else
-  read -r -a model_names <<< "${MODELS:-${MODEL:- PatchTST iTransformer TimeMixer TimeXer}}"
+  read -r -a model_names <<< "${MODELS:-${MODEL:- FEDformer }}"
 fi
 root_path_name=${ROOT_PATH:-${project_dir}/data}
 target_col_name=${TARGET:-electricity}

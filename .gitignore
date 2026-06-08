@@ -12,7 +12,7 @@ data_/
 画图/
 .vscode/
 llama_model/
-
+Time-Series-Library/outputs/
 # TFDF
 tfdf_project/checkpoints/
 tfdf_project/result_data/

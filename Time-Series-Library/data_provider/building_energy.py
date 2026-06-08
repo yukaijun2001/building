@@ -59,6 +59,8 @@ class WindowDataset(Dataset):
 
 def load_building_csv(path: Path, target_col: str) -> pd.DataFrame:
     df = pd.read_csv(path)
+    if "timestamp" not in df.columns and "date" in df.columns:
+        df = df.rename(columns={"date": "timestamp"})
     if "timestamp" not in df.columns:
         raise ValueError(f"{path} does not contain timestamp column")
     if target_col not in df.columns:

@@ -18,7 +18,8 @@ label_len=${LABEL_LEN:-24}
 # 每个 patch 的长度，默认 24 表示一个 patch 覆盖 24 小时。
 patch_len=${PATCH_LEN:-24}
 # 相邻 patch 的滑动步长，默认取 patch_len 的一半；也可用 PATCH_STRIDE 手动覆盖。
-patch_stride=${PATCH_STRIDE:-$((patch_len / 2))}
+# patch_stride=${PATCH_STRIDE:-$((patch_len / 2))}
+patch_stride=${PATCH_STRIDE:-12}
 # 从所有候选 patch 中选择的高分 patch 数量。
 top_k_patches=${TOP_K_PATCHES:-8}
 # patch 选择器 MLP 和预测编码器 LSTM 使用的隐藏维度。
@@ -28,7 +29,7 @@ lstm_layers=${LSTM_LAYERS:-1}
 # patch token 进入预测编码器 LSTM 前的投影维度。
 model_dim=${MODEL_DIM:-128}
 # 频域去噪模块保留的低频 FFT 分量比例。
-fft_keep_ratio=${FFT_KEEP_RATIO:-0.5}
+fft_keep_ratio=${FFT_KEEP_RATIO:-1}
 
 # 训练、验证和测试 DataLoader 的批大小。
 batch_size=${BATCH_SIZE:-64}
@@ -64,7 +65,7 @@ fi
 # 12 24 36 48 60 72 84 96 108 120 132 144 156 168
 for seq_len in ${seq_lens}
 do
-  for pred_len in ${PRED_LENS:-24 48 72 96}
+  for pred_len in ${PRED_LENS:-24 }
   do
     model_id_name=${model_name}_${seq_len}_${pred_len}
     "${PYTHON:-python}" -u build_run.py \
