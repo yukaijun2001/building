@@ -177,7 +177,14 @@ class Exp_Building_Energy(Exp_Basic):
             model = self.model.module if isinstance(self.model, nn.DataParallel) else self.model
             model.load_state_dict(torch.load(model_path, map_location=self.device))
 
-        pred, true, history = self.predict(test_loader)
+        pred_scaled, true_scaled, history = self.predict(test_loader)
+        if getattr(self.args, "inverse", False):
+            pred = inverse_target(pred_scaled, self.split)
+            true = inverse_target(true_scaled, self.split)
+        else:
+            pred = pred_scaled
+            true = true_scaled
+
         metrics = source_metrics(pred, true)
         mae, mse = metrics["mae"], metrics["mse"]
         dtw = "Not calculated"
@@ -199,8 +206,8 @@ class Exp_Building_Energy(Exp_Basic):
             f.write(f"mse:{mse}, mae:{mae}, dtw:{dtw}")
             f.write("\n\n")
 
-        self.last_pred_scaled = pred
-        self.last_true_scaled = true
+        self.last_pred_scaled = pred_scaled
+        self.last_true_scaled = true_scaled
         self.last_history_scaled = history
         self.last_metrics = metrics
         return metrics

@@ -8,7 +8,7 @@ mkdir -p "$PROJECT_ROOT/metrics"
 
 for data_name in Hog_assembly_Colette.csv
 do
-  for pred_len in 24 48 72 96
+  for pred_len in 24 
   do
 
     seq_len=720
@@ -47,7 +47,8 @@ do
       --gpu 0 \
       --cosine \
       --tmax 10 \
-      --drop_last
+      --drop_last \
+      --inverse
 
     python -u run.py \
       --task_name long_term_forecast \
@@ -74,6 +75,7 @@ do
       --cosine \
       --tmax 10 \
       --drop_last \
+      --inverse \
       --test_dir long_term_forecast_Electricity_672_${pred_len}_${model}_${data}_sl${seq_len}_ll${label_len}_tl${pred_len}_lr0.0001_bt256_wd1e-05_hd1024_hl2_cosTrue_mixTrue_test_0
   done
 done

@@ -69,6 +69,7 @@ def parse_args():
     parser.add_argument("--freq", type=str, default="h")
     parser.add_argument("--checkpoints", type=str, default="./checkpoints/")
     parser.add_argument("--source_output_dir", type=str, default="./outputs/source_PatchGatedLSTM_168_24")
+    parser.add_argument("--inverse", action="store_true", default=False, help="save test predictions in original target scale")
 
     parser.add_argument("--seq_len", type=int, default=168)
     parser.add_argument("--label_len", type=int, default=24)

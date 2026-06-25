@@ -10,12 +10,12 @@ do
     pred_len=24
     label_len=$((seq_len - pred_len))
 
-    python -u preprocess.py \
-      --dataset $data_name \
-      --seq_len $seq_len \
-      --label_len $label_len \
-      --pred_len $pred_len \
-      --batch_size $batch_size \
+    # python -u preprocess.py \
+    #   --dataset $data_name \
+    #   --seq_len $seq_len \
+    #   --label_len $label_len \
+    #   --pred_len $pred_len \
+    #   --batch_size $batch_size \
 
     python -u run.py \
       --task_name long_term_forecast \

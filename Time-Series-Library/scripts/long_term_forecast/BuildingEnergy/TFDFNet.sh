@@ -59,7 +59,7 @@ import os
 
 path = os.environ["DATA_FILE"]
 target = os.environ["TARGET_COL"]
-with open(path, newline="", encoding="utf-8") as f:
+with open(path, newline="", encoding="utf-8-sig") as f:
     header = next(csv.reader(f))
 time_cols = {"date", "timestamp"}
 cols = [c for c in header if c not in time_cols and c not in {"precipDepth1HR", "precipDepth6HR"}]

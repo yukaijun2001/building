@@ -15,13 +15,13 @@ project_dir=$(cd "${tsl_dir}/.." && pwd)
 if [ "$#" -gt 0 ]; then
   model_names=("$@")
 else
-  read -r -a model_names <<< "${MODELS:-${MODEL:- FEDformer }}"
+  read -r -a model_names <<< "${MODELS:-${MODEL:-TimeXer }}"
 fi
 root_path_name=${ROOT_PATH:-${project_dir}/data}
 target_col_name=${TARGET:-electricity}
 random_seed=${SEED:-42}
 
-seq_len=${SEQ_LEN:-672}
+seq_len=${SEQ_LEN:-504}
 label_len=${LABEL_LEN:-24}
 patch_len=${PATCH_LEN:-24}
 
@@ -76,7 +76,7 @@ import os
 
 path = os.environ["DATA_FILE"]
 target = os.environ["TARGET_COL"]
-with open(path, newline="", encoding="utf-8") as f:
+with open(path, newline="", encoding="utf-8-sig") as f:
     header = next(csv.reader(f))
 time_cols = {"date", "timestamp"}
 cols = [c for c in header if c not in time_cols]
@@ -86,7 +86,7 @@ print(len(cols))
 PY
 )
 
-    for pred_len in ${PRED_LENS:-24 48 72 96}
+    for pred_len in ${PRED_LENS:-24}
     do
       model_id_name=${model_name}_${data_name}_${seq_len}_${pred_len}
       echo "===== Running ${model_name} on ${data_name}: seq_len=${seq_len}, pred_len=${pred_len} ====="
@@ -131,6 +131,7 @@ PY
         --seed "${random_seed}" \
         --des Exp \
         --itr 1 \
+        --inverse \
         "${gpu_args[@]}"
     done
   done

@@ -1,10 +1,10 @@
-code/outputs/
+code/
 参考模型/
 Time-Series-Library/checkpoints*/
 Time-Series-Library/results*/
 Time-Series-Library/test_results*/
 Time-Series-Library/result_long_term_forecast*.txt
-对比脚本/output*/
+对比脚本/
 metrics.json
 Time-Series-Library/参数实验/output/
 Time-Series-Library/消融实验/output/
@@ -20,6 +20,8 @@ tfdf_project/results/
 tfdf_project/results_/
 tfdf_project/test_results/
 
+
+
 # JIE
 jie_project/checkpoints/
 jie_project/dataset/
@@ -28,4 +30,11 @@ jie_project/result/
 jie_project/result_备选/
 jie_project/test_results/
 
-
+# 其他文件
+删除数据结果.py
+数据加噪声.py
+我的实验.md
+一键删除实验结果.py
+横向data/
+jie_project/
+Time-Series-Library/build_run_15min.py

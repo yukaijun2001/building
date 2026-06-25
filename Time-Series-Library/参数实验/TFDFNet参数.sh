@@ -64,7 +64,7 @@ import os
 
 path = os.environ["DATA_FILE"]
 target = os.environ["TARGET_COL"]
-with open(path, newline="", encoding="utf-8") as f:
+with open(path, newline="", encoding="utf-8-sig") as f:
     header = next(csv.reader(f))
 time_cols = {"date", "timestamp"}
 drop_cols = {"precipDepth1HR", "precipDepth6HR"}

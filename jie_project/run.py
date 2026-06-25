@@ -44,6 +44,7 @@ if __name__ == '__main__':
     parser.add_argument('--test_seq_len', type=int, default=config.seq_len, help='test seq len')
     parser.add_argument('--test_label_len', type=int, default=config.label_len, help='test label len')
     parser.add_argument('--test_pred_len', type=int, default=config.pred_len, help='test pred len')
+    parser.add_argument('--inverse', action='store_true', default=False, help='save test outputs in original target scale')
     parser.add_argument('--seasonal_patterns', type=str, default='Monthly', help='subset for M4')
 
     # model define

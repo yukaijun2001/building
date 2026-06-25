@@ -67,6 +67,15 @@ class LongTermForecast(ForecastBasic):
         pred_len = pred_len or self.args.pred_len
         return outputs[:, -pred_len:, :], batch_y[:, -pred_len:, :]
 
+    @staticmethod
+    def _inverse_target(data, data_set):
+        scaler = getattr(data_set, "scaler", None)
+        if scaler is None or not hasattr(scaler, "mean_") or not hasattr(scaler, "scale_"):
+            return data
+        target_mean = float(scaler.mean_[-1])
+        target_scale = float(scaler.scale_[-1])
+        return data * target_scale + target_mean
+
     def vali(self, vali_data, vali_loader, criterion, is_test=False):
         total_loss = []
         total_count = []
@@ -264,6 +273,9 @@ class LongTermForecast(ForecastBasic):
 
                 pred = outputs
                 true = batch_y
+                if self.args.inverse:
+                    pred = self._inverse_target(pred, test_data)
+                    true = self._inverse_target(true, test_data)
 
                 preds.append(pred)
                 trues.append(true)
@@ -278,6 +290,8 @@ class LongTermForecast(ForecastBasic):
                     gt = np.array(true[0, :, -1])
                     pd = np.array(pred[0, :, -1])
                     lookback = batch_x[0, :, -1].detach().cpu().numpy()
+                    if self.args.inverse:
+                        lookback = np.asarray(self._inverse_target(lookback, test_data))
                     gt = np.concatenate([lookback, gt], axis=0)
                     pd = np.concatenate([lookback, pd], axis=0)
                     dir_path = folder_path + f'{self.args.test_pred_len}/'

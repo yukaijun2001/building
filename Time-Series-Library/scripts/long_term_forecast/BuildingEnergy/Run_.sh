@@ -8,14 +8,16 @@ project_dir=$(cd "${tsl_dir}/.." && pwd)
 
 model_name=PatchGatedLSTM
 root_path_name=${ROOT_PATH:-${project_dir}/data}
-target_col_name=${TARGET:-electricity}
+target_col_name=${TARGET:-dayahead_price}
 random_seed=${SEED:-42}
+# 数据采样频率；15min 表示按 CSV 中的 15 分钟间隔建模。
+freq_name=${FREQ:-15min}
 
-# 输入历史长度。可用 SEQ_LEN=168 跑单个长度，或用 SEQ_LENS="24 48 72 96 120 144 168 336 504 672 720" 跑多个长度。
-seq_lens=${SEQ_LENS:-${SEQ_LEN:-"672"}}
+# 输入历史点数。15min 数据下，672 个点表示 7 天。
+seq_lens=${SEQ_LENS:-${SEQ_LEN:-"2688"}}
 # 解码器标签长度，保留这个参数是为了兼容 TSL 参数；BuildingEnergy 流程构造窗口时不使用它。
 label_len=${LABEL_LEN:-24}
-# 每个 patch 的长度，默认 24 表示一个 patch 覆盖 24 小时。
+# 每个 patch 的点数。15min 数据下，24 个点表示 6 小时。
 patch_len=${PATCH_LEN:-24}
 # 相邻 patch 的滑动步长，默认取 patch_len 的一半；也可用 PATCH_STRIDE 手动覆盖。
 # patch_stride=${PATCH_STRIDE:-$((patch_len / 2))}
@@ -65,10 +67,10 @@ fi
 # 12 24 36 48 60 72 84 96 108 120 132 144 156 168
 for seq_len in ${seq_lens}
 do
-  for pred_len in ${PRED_LENS:-24 }
+  for pred_len in ${PRED_LENS:-96 }
   do
     model_id_name=${model_name}_${seq_len}_${pred_len}
-    "${PYTHON:-python}" -u build_run.py \
+    "${PYTHON:-python}" -u build_run_15min.py \
       --task_name long_term_forecast \
       --is_training 1 \
       --root_path "${root_path_name}" \
@@ -78,6 +80,7 @@ do
       --data BuildingEnergy \
       --features MS \
       --target "${target_col_name}" \
+      --freq "${freq_name}" \
       --seq_len "${seq_len}" \
       --label_len "${label_len}" \
       --pred_len "${pred_len}" \
@@ -97,7 +100,6 @@ do
       --grad_clip "${grad_clip}" \
       --seed "${random_seed}" \
       --des Exp \
-      --inverse \
       "${gpu_args[@]}"
   done
 done
